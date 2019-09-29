@@ -1,0 +1,57 @@
+<section class="prelog3in">
+<nav  >
+  <div class="container-fluid">
+    <div class="navbar-header">
+     
+	  
+      <a class="navbar-brand" href="#">
+	 <img id='mylogo' src="./images/logo.png" alt="bloggy" height="50">
+	  </a>
+
+   
+    </div>
+	 
+    
+  </div>
+
+
+
+</nav>
+
+
+
+<div class='con1'>
+
+<h2><strong>Log into Bloggy</strong> </h2>
+  <br>
+<p><a href="/create">Or Create Account</a></p>
+  <br>
+<form action="/login" method="POST">
+  <div>
+    <input class='loginput' type="text" name="username">
+  </div>
+  <br>
+
+
+  <div>
+    <input class='loginput' type="password" name="password">
+  </div>
+  {{#if message}}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <div>
+    <input class='logbtn'type="submit" value="Log In">
+  </div>
+</form>
+<br>
+<br>
+<p><a href="/forgot">Forgot login?</a></p>
+
+</div>
+
+
+</section>
+
+
+
+
