@@ -109,9 +109,9 @@ authRoutes.get("/cat/:cat",  checkAdmin,  (req, res, next) => {
 
 
 authRoutes.get("/blog",  checkAdmin,  (req, res, next) => {
-   
+
   const blog = new Blog({
-    name:req.user.fullname,
+    name:req.user.fullName,
     user:req.user.username,
     title:req.query.title,
     category:req.query.category,
@@ -134,6 +134,22 @@ authRoutes.get("/blog",  checkAdmin,  (req, res, next) => {
  
 });
 
+authRoutes.post("/blog/edit/:id",  checkAdmin,  (req, res, next) => {
+  const {category,tag, mypic, title, comment } = req.body;
+  
+    console.log('pepe2'+JSON.stringify(req.body));
+    Blog.update({_id: req.params.id}, { $set: {name:"admin admin", user:"admin", title, category,tag,picture:mypic,text:comment }})
+  .then((book) => {
+    res.redirect('/dashboard');
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  
+   
+  });
+
+
 
 
 
@@ -145,6 +161,10 @@ authRoutes.get("/dashboard/:user",  checkAdmin,  (req, res, next) => {
  
   Blog.find({"user":req.params.user})
   .then(blogs => { 
+
+    console.log("req.params.user--aaa?? "+blogs);
+
+    console.log('admin coco blog '+JSON.stringify(blogs));
 
     let pair=[]; 
     let newBlog=[];
@@ -186,6 +206,7 @@ authRoutes.get("/dashboard",  checkAdmin,  (req, res, next) => {
   Blog.find()
   .then(blogs => { 
 
+
     let pair=[]; 
     let newBlog=[];
     let cnt=0;
@@ -217,46 +238,7 @@ authRoutes.get("/dashboard",  checkAdmin,  (req, res, next) => {
 
  
 });
-
-/* also work here ensureAuthenticated  or ensureLogin.ensureLoggedIn()*/
-authRoutes.get("/dashboard2/:user",  checkAdmin,  (req, res, next) => {
-   
-
-  Blog.find({"user":req.params.user})
-  .then(blogs => { 
-
-    console.log("req.params.user--aaa?? "+blogs);
-    let pair=[]; 
-    let newBlog=[];
-    let cnt=0;
-    for (let i=0;i<blogs.length;i++){
-        pair.push(blogs[i]);
-        if (i%2!=0)
-            {
-              newBlog.push(pair);
-              pair=[];
-            }
-
-    }
-    if (blogs.length%2!=0)
-    newBlog.push(pair);
-
-   Category.find()
-   .then(categories => {
-    res.render("auth/dashboard", {loggedUser:req.user,categories:categories,blogs:newBlog});
-   })
-   .catch(error => {
-    console.log('Error while getting the categories from the DB: ', error);
-   })
-
-  })
-  .catch(error => {
-    console.log('Error while getting the blogs from the DB: ', error);
-   }) 
-
-
- 
-});
+        
 
 authRoutes.get("/editProfile/:username",  checkTADEVEDIT, (req, res, next) => {
   

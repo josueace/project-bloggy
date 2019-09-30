@@ -2,6 +2,7 @@
 const express = require("express");
 const loginRoutes = express.Router();
 const passport = require("passport");
+const Blog = require("../models/Blog");
 
 // User model
 const User = require("../models/user");
@@ -14,6 +15,20 @@ const ensureLogin = require("connect-ensure-login");
 
 loginRoutes.get("/create", (req, res, next) => {
   res.render("auth/createact", { "message": req.flash("error") });
+});
+
+
+loginRoutes.get("/viewblog/:id", (req, res, next) => {
+
+  Blog.findById(req.params.id)
+  .then(blog => { 
+    console.log('llego'+JSON.stringify(blog));
+    res.render("auth/viewblog", {loggedUser:req.user,blog});
+   })
+   .catch(error => {
+    console.log('Error while getting the blog from the DB: ', error);
+   })
+ 
 });
 
 
@@ -52,11 +67,6 @@ loginRoutes.post("/createPost", (req, res, next) => {
   });
 
 });
-
-
-
-
-
   
 
 

@@ -31,22 +31,31 @@
   color: white; }
 
 .blogtitle1 {
+  text-shadow: 2px 2px #FF0000;
   position: relative;
-  font-size: 34px;
+  font-size: 30px;
   color: white;
   text-align: center;
-  top: 60px; }
+  top: 20px; }
 
 .blogtitle2 {
+  text-shadow: 2px 2px #FF0000;
   position: relative;
-  top: 60px;
+  top: 20px;
   font-size: 20px;
   color: white;
   text-align: center; }
 
+hr {
+  border: 5px solid #000; }
+
+.blogview {
+  margin: 100px; }
+
 .blogtitle3 {
+  text-shadow: 2px 2px #FF0000;
   position: relative;
-  top: 60px;
+  top: 20px;
   font-size: 20px;
   color: white;
   text-align: center; }

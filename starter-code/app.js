@@ -111,8 +111,7 @@ const index = require('./routes/index');
 app.use('/', index);
 const authRoutes = require("./routes/auth-routes");
 app.use('/', authRoutes);
-const courseRoutes = require("./routes/course-routes");
-app.use('/', courseRoutes);
+
 const loginRoutes = require("./routes/login-routes");
 app.use('/', loginRoutes);
 

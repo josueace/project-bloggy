@@ -14,18 +14,33 @@ $(document).ready( () => {
   
 
   $('#save').click(function(event){
-    
-    if ($('#mypic').val().length==0 ||
-    $('#cat').val().length==0 ||
-    $('#tag').val().length==0 ||
-    $('#comment').val().length==0 ||
-    $('#title').val().length==0 
-      ){
-      alert('All fields are required');
-      event.preventDefault(); 
-      }
-    else
+
+    if ($('#mypic').val().length==0)
+    {
+     alert('picture is required');
+     event.preventDefault();
+     return false;
+    }else
+
+   if ($('#cat').val().length==0 ){
+      alert('category is required');
+      event.preventDefault();
+      return false;
+    }else
+    if ($('#tag').val().length==0 ){
+      alert('tag is required');
+      event.preventDefault();
+      return false;
+    }else
+   
+    if ($('#title').val().length==0 ){
+      alert('title is required');
+      event.preventDefault();
+      return false;
+    }else
+    {
     $('#blogform').submit();
+    }
  
  });
 
