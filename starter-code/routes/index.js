@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
 
   const newUser = new User({
     username:"admin",
-    fullName:"Admin Admin",
+    fullName:"System Admin ",
     password: hashPass,
     role:'Admin'
   });

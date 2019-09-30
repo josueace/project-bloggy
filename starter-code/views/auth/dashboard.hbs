@@ -5,7 +5,8 @@
  
   <div class="row content">
     <div id='myside' class="col-sm-2 sidenav">
-     
+      <p>Categories</p>
+     <p><a href="">+ create new Category</a></p>
      {{#each categories}} 
       <p><a href="/cat/{{this.name}}">{{this.name}}</a></p>
     {{/each}}
@@ -23,13 +24,14 @@
        <a class="blogtitle2" href="/viewblog/{{this.0.id}}">read more</a>
 				</div>
 		
+     {{#if this.1.id}}
 	   	  <div class="userItem" style="background-image: url('../images/{{this.1.picture}}') ">
 			 <p class="blogtitle3" >{{this.1.category}}</p>  
 			 <p class="blogtitle1" >{{this.1.name}}</p>
 			 <p class="blogtitle2" >{{this.1.title}}</p>
        <a class="blogtitle2" href="/viewblog/{{this.1.id}}">read more</a>
 				</div>
-
+      {{/if}}
 
 		
     </div> 
@@ -42,10 +44,14 @@
    
 	 
     <div id='latest' class="col-sm-2 sidenav">
-      <div class="well"><p>juns 10 11</p><p>Latest post 1</p></div>
-	  
+  
+     <p>Latest posts</p>
+    
+     {{#each blogAll}} 
+      <p><a href="/viewblog/{{this.id}}">{{this.title}} by: {{this.user}}</a></p>
+    {{/each}}
+
     </div>
-  </div>
   
 
 </div>
@@ -67,18 +73,27 @@
           
 		  <form id="blogform" action="/blog">
 	
-  <input id="cat" type="text" placeholder="category" name="category" value=""><br>
-  <br>
-  <input id="tag" type="text" placeholder="tags"  name="tag" value=""><br>
-  <input id="mypic" placeholder="image" type="text" name="mypic" value=""><br>
-  <input id="title" type="text" placeholder="title" name="title" size="100%" value="">
-  <br><br>
-   Text:<br>
+
+ <label for="cat">Category:</label>
+   <select id='cat' name="category">
+    {{#each categories}} 
+      <option value="{{this.name}}">{{this.name}}</option>
+    {{/each}}
+  </select>
+
+   <label for="tag">Tags:</label>
+   <input id="tag" type="text" placeholder="tags"  name="tag" value="">
+   <label for="mypic">Picture:</label>
+   <input id="mypic" placeholder="image" type="text" name="mypic" value=""><br>
+   <label for="title">Title:</label>
+   <input id="title" type="text" placeholder="title" name="title" size="100%" value=""><br>
+  
+    <label for="comment">Text:</label>
   <textarea style='height:100px;width:100%' id="comment" name="comment" form="blogform"></textarea>
-  <br><br>
+  
   
  
-</form> 
+    </form> 
 		  
         </div>
         <div class="modal-footer">

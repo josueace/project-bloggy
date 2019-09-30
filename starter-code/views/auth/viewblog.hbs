@@ -32,12 +32,21 @@
           
 		  <form id="blogform" action="/blog/edit/{{blog.id}}"  method="post">
 	
-  <input id="cat" type="text" placeholder="category" name="category" value="{{blog.category}}"><br>
-  <br>
-  <input id="tag" type="text" placeholder="tags"  name="tag" value="{{blog.tag}}"><br>
-  <input id="mypic" placeholder="image" type="text" name="mypic" value="{{blog.picture}}"><br>
+  <label for="cat">Category:</label>
+<select id='cat' name="category">
+    {{#each categories}} 
+      <option value="{{this.name}}">{{this.name}}</option>
+    {{/each}}
+  </select>
+
+
+<label for="tag">Tags:</label>
+  <input id="tag" type="text" placeholder="tags"  name="tag" value="{{blog.tag}}">
+  <label for="mypic">Picture:</label>
+  <input id="mypic" placeholder="image" type="text" name="mypic" value="{{blog.picture}}">
+  <label for="title">Title:</label>
   <input id="title" type="text" placeholder="title" name="title" size="100%" value="{{blog.title}}">
-  <br><br>
+
    Text:<br>
   <textarea style='height:100px;width:100%' id="comment" name="comment" form="blogform">{{blog.text}}</textarea>
   <br><br>

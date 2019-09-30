@@ -7,7 +7,7 @@
         <span style='background-color:black' class="icon-bar"></span>                        
       </button>
 	  
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="localhost:3000">
 	 <img id='mylogo' src="../images/logo.png" alt="bloggy" height="50">
 	  </a>
     </div>
@@ -18,9 +18,9 @@
         <li><a href="/dashboard/{{loggedUser.username}}">My Blogs</a></li>
         <li><a id='donew' href="#">New Blog</a></li>
       </ul>
-      <form class="navbar-form navbar-right" role="search">
+      <form  id='searchform' class="navbar-form navbar-right" role="search" action="/search">
         <div class="form-group input-group">
-          <input id='mysearchtext' type="text" class="form-control" placeholder="Search..">
+          <input id='mysearchtext' type="text" name="mysearchtext" class="form-control" placeholder="Search..">
           <span class="input-group-btn">
             <button id='mysearch' class="btn btn-default" type="button">
               <span class="glyphicon glyphicon-search"></span>
@@ -29,8 +29,9 @@
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/logout"><span class="glyphicon glyphicon-user"></span>Log out {{loggedUser.fullName}}'s Account</a></li>
-      </ul>
+        <li><a href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp;User:{{loggedUser.username}}</a></li>
+        <li><a href="/logout"><span class="glyphicon glyphicon-user"></span>&nbsp;Log out</a></li>
+      </ul
     </div>
   </div>
 </nav>

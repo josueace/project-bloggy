@@ -11,7 +11,10 @@ $(document).ready( () => {
   return false; } 
   );
   
-  
+  $('#mysearch').click(function(event){
+    $('#searchform').submit();
+  });
+
 
   $('#save').click(function(event){
 
@@ -22,7 +25,7 @@ $(document).ready( () => {
      return false;
     }else
 
-   if ($('#cat').val().length==0 ){
+    if($("#cat").attr("selectedIndex") == 0) {
       alert('category is required');
       event.preventDefault();
       return false;

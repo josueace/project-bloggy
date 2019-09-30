@@ -3,6 +3,7 @@ const express = require("express");
 const loginRoutes = express.Router();
 const passport = require("passport");
 const Blog = require("../models/Blog");
+const Category = require("../models/Category");
 
 // User model
 const User = require("../models/user");
@@ -22,8 +23,16 @@ loginRoutes.get("/viewblog/:id", (req, res, next) => {
 
   Blog.findById(req.params.id)
   .then(blog => { 
-    console.log('llego'+JSON.stringify(blog));
-    res.render("auth/viewblog", {loggedUser:req.user,blog});
+   
+    
+    Category.find()
+    .then(categories => {
+      res.render("auth/viewblog", {loggedUser:req.user,blog,categories});
+    })
+    .catch(error => {
+     console.log('Error while getting the categories from the DB: ', error);
+    })
+    
    })
    .catch(error => {
     console.log('Error while getting the blog from the DB: ', error);

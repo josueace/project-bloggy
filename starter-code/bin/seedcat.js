@@ -8,9 +8,7 @@ mongoose.connect(`mongodb://localhost/${dbName}`);
 
 
 const categories = [
-  {
-    name : "TOP CATEGORIES",
-  },
+ 
   {
     name : "IronHack",
   },
@@ -22,6 +20,15 @@ const categories = [
   },
   {
     name : "Music",
+  },
+  {
+    name : "Travel",
+  },
+  {
+    name : "Food",
+  },
+  {
+    name : "Clothing",
   },
 ];
 

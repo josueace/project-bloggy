@@ -2,6 +2,7 @@
 const express = require("express");
 const authRoutes = express.Router();
 const passport = require("passport");
+const mongoose     = require('mongoose');
 
 // User model
 const User = require("../models/user");
@@ -92,7 +93,7 @@ authRoutes.get("/cat/:cat",  checkAdmin,  (req, res, next) => {
 
    Category.find()
    .then(categories => {
-    res.render("auth/dashboard", {loggedUser:req.user,categories:categories,blogs:newBlog});
+    res.render("auth/dashboard", {loggedUser:req.user,categories:categories,blogs:newBlog,blogAll:blogs});
    })
    .catch(error => {
     console.log('Error while getting the categories from the DB: ', error);
@@ -107,6 +108,19 @@ authRoutes.get("/cat/:cat",  checkAdmin,  (req, res, next) => {
  
 });
 
+
+authRoutes.get("/remove/:id",  checkAdmin,  (req, res, next) => {
+  Blog.findByIdAndDelete(req.params.id,(err) => {
+    if (err) {
+      res.render("auth/login", { message: "Something went wrong" });
+    } else {
+      res.redirect("/dashboard");
+    }
+  });
+  
+
+ 
+});
 
 authRoutes.get("/blog",  checkAdmin,  (req, res, next) => {
 
@@ -136,20 +150,52 @@ authRoutes.get("/blog",  checkAdmin,  (req, res, next) => {
 
 authRoutes.post("/blog/edit/:id",  checkAdmin,  (req, res, next) => {
   const {category,tag, mypic, title, comment } = req.body;
-  
-    console.log('pepe2'+JSON.stringify(req.body));
-    Blog.update({_id: req.params.id}, { $set: {name:"admin admin", user:"admin", title, category,tag,picture:mypic,text:comment }})
+    Blog.update({_id: req.params.id}, { $set: {name:req.user.fullName, user:req.user.username, title, category,tag,picture:mypic,text:comment }})
   .then((book) => {
-    res.redirect('/dashboard');
+    res.redirect('/viewblog/'+req.params.id);
   })
   .catch((error) => {
     console.log(error);
   })
+  });
+
+  authRoutes.get("/search",  checkAdmin,  (req, res, next) => {
+    Blog.find({"text":{"$regex":req.query.mysearchtext}})
+    .then(blogs => { 
+  
+      let pair=[]; 
+      let newBlog=[];
+      let cnt=0;
+      for (let i=0;i<blogs.length;i++){
+          pair.push(blogs[i]);
+          if (i%2!=0)
+              {
+                newBlog.push(pair);
+                pair=[];
+              }
+  
+      }
+      if (blogs.length%2!=0)
+      newBlog.push(pair);
+  
+     Category.find()
+     .then(categories => {
+      res.render("auth/dashboard", {loggedUser:req.user,categories:categories,blogs:newBlog,blogAll:blogs});
+     })
+     .catch(error => {
+      console.log('Error while getting the categories from the DB: ', error);
+     })
+  
+    })
+    .catch(error => {
+      console.log('Error while getting the blogs from the DB: ', error);
+     }) 
+  
   
    
   });
-
-
+  
+  
 
 
 
@@ -161,10 +207,6 @@ authRoutes.get("/dashboard/:user",  checkAdmin,  (req, res, next) => {
  
   Blog.find({"user":req.params.user})
   .then(blogs => { 
-
-    console.log("req.params.user--aaa?? "+blogs);
-
-    console.log('admin coco blog '+JSON.stringify(blogs));
 
     let pair=[]; 
     let newBlog=[];
@@ -183,7 +225,7 @@ authRoutes.get("/dashboard/:user",  checkAdmin,  (req, res, next) => {
 
    Category.find()
    .then(categories => {
-    res.render("auth/dashboard", {loggedUser:req.user,categories:categories,blogs:newBlog});
+    res.render("auth/dashboard", {loggedUser:req.user,categories:categories,blogs:newBlog,blogAll:blogs});
    })
    .catch(error => {
     console.log('Error while getting the categories from the DB: ', error);
@@ -224,7 +266,7 @@ authRoutes.get("/dashboard",  checkAdmin,  (req, res, next) => {
 
    Category.find()
    .then(categories => {
-    res.render("auth/dashboard", {loggedUser:req.user,categories:categories,blogs:newBlog});
+    res.render("auth/dashboard", {loggedUser:req.user,categories:categories,blogs:newBlog,blogAll:blogs});
    })
    .catch(error => {
     console.log('Error while getting the categories from the DB: ', error);
@@ -269,40 +311,6 @@ authRoutes.get("/logout", (req, res) => {
 authRoutes.get("/myaccount", ensureLogin.ensureLoggedIn(), (req, res) => {
  
   res.render("auth/myaccount", { user: req.user });
-});
-
-authRoutes.get("/signup", (req, res, next) => {
-  res.render("auth/signup");
-});
-
-authRoutes.post("/signup", (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const role = req.body.role;
-
-  if (username === "" || password === "" || role === "") {
-    res.render("auth/signup", { message: "Indicate username , password and role" });
-    return;
-  }
-
-
-  const salt = bcrypt.genSaltSync(bcryptSalt);
-  const hashPass = bcrypt.hashSync(password, salt);
-
-  const newUser = new User({
-    username,
-    password: hashPass,
-    role
-  });
-
-  newUser.save((err) => {
-    if (err) {
-      res.render("/dashboard", { message: "Something went wrong" });
-    } else {
-      res.redirect("/dashboard");;
-    }
-  });
-
 });
 
 
